@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  p Заглушка для локальной разработки проекта
+    strong  МЕТРИКА
+
+  p API service
+  ul
+    li
+      p
+        a(href ="/api/auth") /api/auth
+        span  - проверка авторизации пользователя
+    li
+     p
+      a(href ="/api/directory") /api/directory/:id
+      span  - получить справочник. id- идент справочника
