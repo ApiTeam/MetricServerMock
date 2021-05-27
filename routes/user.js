@@ -8,7 +8,7 @@ const user = {
     department: "отдел програмирования",
     phone: "+7(800)123-45-67",
     roles: ["admin", "developer", "customer"]
-}
+};
 
 router.get('/unauth', (req, res, next) => {
     next(createError(401, 'В доступе отказано'))
