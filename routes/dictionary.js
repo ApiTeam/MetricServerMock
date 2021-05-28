@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 
-const directory = {
+const dictionary = {
     expenditure: {
         name: 'статьи расходов',
         items: [
@@ -76,17 +76,17 @@ const directory = {
     },
 };
 
-router.get('/directory/:id', (req, res, next) => {
+router.get('/dictionary/:id', (req, res, next) => {
     const {id} = req.params;
-    const data = directory[id];
+    const data = dictionary[id];
     if (data)
         res.json(data);
     else
         next(createError(404, 'Справочник не найден'));
 });
 
-router.get('/directory', (req, res) => {
-    res.json(directory);
+router.get('/dictionary', (req, res) => {
+    res.json(dictionary);
 });
 
 module.exports = router;
