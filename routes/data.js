@@ -73,7 +73,7 @@ router.get("/data/flat/:section", (req, res, next) => {
 
     const seededRandom = new SeededRandom(Number(year + quarter))
 
-    const result = [];
+    let result = [];
     const sectionDict = data[section];
 
     Object.keys(sectionDict).forEach((keyMain) => {
@@ -88,6 +88,8 @@ router.get("/data/flat/:section", (req, res, next) => {
             })            
         })
     })
+
+    result = result.map((value, index) => ({...value, id:index})) // add id
     res.json(result)
 })
 
