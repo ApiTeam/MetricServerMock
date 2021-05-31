@@ -28,16 +28,21 @@ const quarters = [
 
 router.get("/data/:section", (req, res, next) => {
     const {section} = req.params
-    const {year, quarter} = req.query
+    let {year, quarter} = req.query
+    year = Number(year)
+    quarter = Number(quarter)
 
     if (!data[section]) {
         next(createError(404, 'Секция справочника не найдена'));
+        return;
     }
     if (Number.isNaN(year) || year <= 1900 || year > 2021) {
         next(createError(400, 'Год - это число в промежутке от 1900 до 2021'));
+        return;
     }
-    if (Number.isNaN(quarter) || quarter < 1 || year > 4) {
+    if (Number.isNaN(quarter) || quarter < 1 || quarter > 4) {
         next(createError(400, 'Квартал принимает следующие значения: 1,2,3,4'));
+        return;
     }
 
     const seededRandom = new SeededRandom(Number(year + quarter))
@@ -59,16 +64,21 @@ router.get("/data/:section", (req, res, next) => {
 
 router.get("/data/flat/:section", (req, res, next) => {
     const {section} = req.params
-    const {year, quarter} = req.query
+    let {year, quarter} = req.query
+    year = Number(year)
+    quarter = Number(quarter)
 
     if (!data[section]) {
         next(createError(404, 'Секция справочника не найдена'));
+        return;
     }
     if (Number.isNaN(year) || year <= 1900 || year > 2021) {
         next(createError(400, 'Год - это число в промежутке от 1900 до 2021'));
+        return;
     }
-    if (Number.isNaN(quarter) || quarter < 1 || year > 4) {
+    if (Number.isNaN(quarter) || quarter < 1 || quarter > 4) {
         next(createError(400, 'Квартал принимает следующие значения: 1,2,3,4'));
+        return;
     }
 
     const seededRandom = new SeededRandom(Number(year + quarter))
@@ -91,6 +101,14 @@ router.get("/data/flat/:section", (req, res, next) => {
 
     result = result.map((value, index) => ({...value, id:index})) // add id
     res.json(result)
+})
+
+router.put("/data/flat", (req, res, next) => {
+    if(req.body.some(value => value.costs>4000)){
+        next (createError(400, "costs <=4000"))
+        return
+    }
+    res.json(req.body)
 })
 
 module.exports = router;
